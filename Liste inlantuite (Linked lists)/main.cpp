@@ -47,7 +47,7 @@ Node* addElementToStart(LinkedList* list, int value)
 }
 
 
-void parcurgereLista(LinkedList* list)
+void printareLista(LinkedList* list)
 {
     Node* currentNode = list->start;
     while (currentNode !=nullptr)
@@ -58,9 +58,72 @@ void parcurgereLista(LinkedList* list)
     }
 }
 
+Node* insertAfter(LinkedList* list, Node* nodeBefore, int value)  //nu sunt sigur daca am inteles conditia corect
+{
+    
+    Node* node = new Node;
+    node->value = value;
+    node->next = nullptr;
+    if (nodeBefore == nullptr)
+    {
+        node->next = list->start;
+        list->start = node;
+    }
+    else 
+    {
+        node->next = nodeBefore->next;
+            nodeBefore->next = node;
+    }
+
+
+    return node;
+}
+
+void deleteAfter(LinkedList* list, Node* nodeBefore)  
+{
+    if (nodeBefore == nullptr)
+    {
+        if (list->start != nullptr) 
+        {
+            Node* container = list->start;
+            list->start = list->start->next;
+            delete container;
+        }
+    }
+    else
+    { 
+        if (nodeBefore->next != nullptr)
+        {
+            Node* container = nodeBefore->next;
+            nodeBefore->next = nodeBefore->next->next;
+            if (container == list->end) list->end = nodeBefore;
+            delete container;
+       
+        }
+
+    }
+      
+}
+
+
+
+
+
+Node* accesareElementDupaIndexInLista(LinkedList* list, int index)
+{
+    Node* currentNode = list->start;
+        for(int i = 0; i<index ; i++)
+        {
+            currentNode = currentNode->next;
+        }
+   // std::cout<<(currentNode->value);
+    return currentNode;
+}
+
 
 int main()
-{
+{   
+    Node* test;
     LinkedList list;
     list.start = nullptr;
     list.end = nullptr;
@@ -70,8 +133,11 @@ int main()
  addElementToEnd(&list,3);
  addElementToStart(&list,4);
 
- parcurgereLista(&list);
-
-
+ Node* index0 = accesareElementDupaIndexInLista(&list, 0);
+insertAfter(&list, index0, 6 );
+ 
+deleteAfter(&list, index0);
+ printareLista(&list);
+ 
  return 0;
 }
