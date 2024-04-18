@@ -7,6 +7,13 @@ int value;
 Node* next;
 };
 
+struct FindNodeResult
+{
+    Node* behind;
+    Node* node;
+
+};
+
 struct LinkedList
 {
     
@@ -116,8 +123,50 @@ Node* accesareElementDupaIndexInLista(LinkedList* list, int index)
         {
             currentNode = currentNode->next;
         }
-   // std::cout<<(currentNode->value);
+    //std::cout<<(currentNode->value);
     return currentNode;
+}
+
+
+
+
+FindNodeResult find (LinkedList* list, int value)
+{
+    Node* currentNode = list->start;
+    Node* nodeBehind = nullptr;
+    bool found = false;
+    
+    while (currentNode !=nullptr)
+    {
+        if (currentNode->value == value)
+        {
+
+            found = true;
+            break;
+        }
+        nodeBehind = currentNode;
+        currentNode = currentNode->next;
+    }
+
+    if (found)
+    { 
+        if (nodeBehind == nullptr)
+        {
+            std::cout<<"Elementul a fost gasit in primul nod din lista"<<endl;
+            
+        }
+        else 
+        {
+            std::cout<<"Elementul a fost gasit!";
+        }
+
+        return {nodeBehind, currentNode};
+
+    }
+    else 
+    {
+        std::cout<<"Elementul nu a fost gasit in nodurile din lista!";
+    }
 }
 
 
@@ -133,11 +182,13 @@ int main()
  addElementToEnd(&list,3);
  addElementToStart(&list,4);
 
+find (&list, 4);
+
  Node* index0 = accesareElementDupaIndexInLista(&list, 0);
-insertAfter(&list, index0, 6 );
+//insertAfter(&list, index0, 6 );
  
-deleteAfter(&list, index0);
- printareLista(&list);
+//deleteAfter(&list, index0);
+printareLista(&list);
  
  return 0;
 }
